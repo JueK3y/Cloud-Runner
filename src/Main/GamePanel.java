@@ -70,8 +70,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		//Gameloop
 		while(running) {
 			
-			System.out.println("Game running");
-			
 			start = System.nanoTime();
 			
 			update();

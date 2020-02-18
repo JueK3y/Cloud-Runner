@@ -40,8 +40,8 @@ public class TileMap {
 	private int numRowsToDraw;
 	private int numColsToDraw;
 	
-	public TileMap(int TileSize) {
-		//this.tileSize = tileSize;
+	public TileMap(int tileSize) {
+		this.tileSize = tileSize;
 		numRowsToDraw = GamePanel.HEIGHT / tileSize + 2;
 		numColsToDraw = GamePanel.WIDTH / tileSize + 2;
 		tween = 0.07;

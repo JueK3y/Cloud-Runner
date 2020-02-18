@@ -40,8 +40,6 @@ public class MenuState extends GameState {
 			
 			font = new Font("Arial", Font.PLAIN, 12);
 			//Font f = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/Fonts/testfont.ttf")).deriveFont(Font.PLAIN, 20);
-
-			System.out.println("Menu-Start");
 			
 		}
 		catch(Exception e) {
@@ -57,9 +55,7 @@ public class MenuState extends GameState {
 		bg.update();
 	}
 	
-	public void draw(Graphics2D g) {		
-
-		System.out.println("Menu-draw");
+	public void draw(Graphics2D g) {
 		
 		//draw bg
 		bg.draw(g);
@@ -72,8 +68,6 @@ public class MenuState extends GameState {
 		//draw menu options
 		g.setFont(font);
 		for(int i = 0; i < options.length; i++) {
-
-			System.out.println("Menu-draw");
 			
 			if(i == currentChoice) {
 				g.setColor(Color.BLACK);
