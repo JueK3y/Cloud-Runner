@@ -1,44 +1,44 @@
 package Entity;
 
+import TileMap.*;
+
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import TileMap.*;
-
 public class Player extends MapObject {
 	
-	//player stuff
+	// player stuff
 	private int health;
 	private int maxHealth;
-	private int fire; 					// !! ! !!
+	private int fire;
 	private int maxFire;
 	private boolean dead;
 	private boolean flinching;
 	private long flinchTimer;
 	
-	//fireball
+	// fireball
 	private boolean firing;
 	private int fireCost;
 	private int fireBallDamage;
-	//priavte ArrayList<FireBall> fireBalls;
+	//private ArrayList<FireBall> fireBalls;
 	
-	//scratch
+	// scratch
 	private boolean scratching;
 	private int scratchDamage;
 	private int scratchRange;
 	
-	//gliding
+	// gliding
 	private boolean gliding;
 	
-	//animations
+	// animations
 	private ArrayList<BufferedImage[]> sprites;
 	private final int[] numFrames = {
-		2, 8, 1, 2, 4, 2, 5	
+		2, 8, 1, 2, 4, 2, 5
 	};
 	
-	//animation
+	// animation actions
 	private static final int IDLE = 0;
 	private static final int WALKING = 1;
 	private static final int JUMPING = 2;
@@ -48,6 +48,7 @@ public class Player extends MapObject {
 	private static final int SCRATCHING = 6;
 	
 	public Player(TileMap tm) {
+		
 		super(tm);
 		
 		width = 30;
@@ -57,7 +58,7 @@ public class Player extends MapObject {
 		
 		moveSpeed = 0.3;
 		maxSpeed = 1.6;
-		stopSpeed = 0.5;
+		stopSpeed = 0.4;
 		fallSpeed = 0.15;
 		maxFallSpeed = 4.0;
 		jumpStart = -4.8;
@@ -75,21 +76,40 @@ public class Player extends MapObject {
 		scratchDamage = 8;
 		scratchRange = 40;
 		
-		//load sprites
+		// load sprites
 		try {
 			
-			BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/Sprites/Player/playersprites.gif"));
+			BufferedImage spritesheet = ImageIO.read(
+				getClass().getResourceAsStream(
+					"/Sprites/Player/playersprites.gif"
+				)
+			);
 			
-			//sprites = new ArrayList<BufferedImage[]>();
+			sprites = new ArrayList<BufferedImage[]>();
 			for(int i = 0; i < 7; i++) {
-				BufferedImage[] bi = new BufferedImage[numFrames[i]];
+				
+				BufferedImage[] bi =
+					new BufferedImage[numFrames[i]];
+				
 				for(int j = 0; j < numFrames[i]; j++) {
+					
 					if(i != 6) {
-						bi[j] = spritesheet.getSubimage(j = width, i = height, width, height);
+						bi[j] = spritesheet.getSubimage(
+								j * width,
+								i * height,
+								width,
+								height
+						);
 					}
 					else {
-						bi[j] = spritesheet.getSubimage(j = width * 2, i = height, width, height);						
+						bi[j] = spritesheet.getSubimage(
+								j * width * 2,
+								i * height,
+								width,
+								height
+						);
 					}
+					
 				}
 				
 				sprites.add(bi);
@@ -101,39 +121,31 @@ public class Player extends MapObject {
 			e.printStackTrace();
 		}
 		
-		//animation = new Animation();
-		//currentAction = IDLE;
-		//animation.setFrames(sprites.get(IDLE));
-		//animation.setDelay(400);
-	
+		animation = new Animation();
+		currentAction = IDLE;
+		animation.setFrames(sprites.get(IDLE));
+		animation.setDelay(400);
+		
 	}
 	
-	public int getHealth() {
-		return health;
-	}
-	public int getMaxHealth() {
-		return maxHealth;
-	}
-	public int getFire() {
-		return fire;
-	}
-	public int getMaxFire() {
-		return maxFire;
-	}
+	public int getHealth() { return health; }
+	public int getMaxHealth() { return maxHealth; }
+	public int getFire() { return fire; }
+	public int getMaxFire() { return maxFire; }
 	
-	public void setFiring() {
+	public void setFiring() { 
 		firing = true;
 	}
 	public void setScratching() {
 		scratching = true;
 	}
-	public void setGliding(boolean b) {
+	public void setGliding(boolean b) { 
 		gliding = b;
 	}
 	
 	private void getNextPosition() {
 		
-		//movement
+		// movement
 		if(left) {
 			dx -= moveSpeed;
 			if(dx < -maxSpeed) {
@@ -161,19 +173,22 @@ public class Player extends MapObject {
 			}
 		}
 		
-		//Verhindert das Bewegen während eines Angriffes (außer in der Luft)
-		if((currentAction == SCRATCHING || currentAction == FIREBALL) && !(jumping || falling)) {
+		// cannot move while attacking, except in air
+		if(
+		(currentAction == SCRATCHING || currentAction == FIREBALL) &&
+		!(jumping || falling)) {
 			dx = 0;
 		}
 		
-		//jumping
+		// jumping
 		if(jumping && !falling) {
 			dy = jumpStart;
-			falling = true;
+			falling = true;	
 		}
 		
-		//falling
+		// falling
 		if(falling) {
+			
 			if(dy > 0 && gliding) dy += fallSpeed * 0.1;
 			else dy += fallSpeed;
 			
@@ -183,16 +198,17 @@ public class Player extends MapObject {
 			if(dy > maxFallSpeed) dy = maxFallSpeed;
 			
 		}
+		
 	}
 	
 	public void update() {
 		
-		//update position
+		// update position
 		getNextPosition();
 		checkTileMapCollision();
 		setPosition(xtemp, ytemp);
 		
-		//set animation
+		// set animation
 		if(scratching) {
 			if(currentAction != SCRATCHING) {
 				currentAction = SCRATCHING;
@@ -252,30 +268,64 @@ public class Player extends MapObject {
 		
 		animation.update();
 		
-		//set direction
+		// set direction
 		if(currentAction != SCRATCHING && currentAction != FIREBALL) {
 			if(right) facingRight = true;
 			if(left) facingRight = false;
-		} 
+		}
+		
 	}
 	
 	public void draw(Graphics2D g) {
 		
 		setMapPosition();
 		
-		//draw player
+		// draw player
 		if(flinching) {
-			long elapsed = (System.nanoTime() - flinchTimer) / 1000000;
+			long elapsed =
+				(System.nanoTime() - flinchTimer) / 1000000;
 			if(elapsed / 100 % 2 == 0) {
 				return;
 			}
 		}
 		
 		if(facingRight) {
-			g.drawImage(animation.getImage(), (int)(x + xmap - width / 2), (int)(y + ymap - height / 2), null);
+			g.drawImage(
+				animation.getImage(),
+				(int)(x + xmap - width / 2),
+				(int)(y + ymap - height / 2),
+				null
+			);
 		}
 		else {
-			g.drawImage(animation.getImage(), (int)(x + xmap - width / 2 + width), (int)(y + ymap - height / 2), -width, height, null);
+			g.drawImage(
+				animation.getImage(),
+				(int)(x + xmap - width / 2 + width),
+				(int)(y + ymap - height / 2),
+				-width,
+				height,
+				null
+			);
+			
 		}
+		
 	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

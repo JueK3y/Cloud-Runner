@@ -85,7 +85,7 @@ public abstract class MapObject {
 		int leftTile = (int)(x - cwidth / 2) / tileSize;
 		int rightTile = (int)(x + cwidth / 2 - 1) / tileSize;
 		int topTile = (int)(y - cheight / 2) / tileSize;
-		int bottomTile = (int)(y + height / 2 - 1) /tileSize;
+		int bottomTile = (int)(y + cheight / 2 - 1) /tileSize;
 		
 		int tl = tileMap.getType(topTile, leftTile);
 		int tr = tileMap.getType(topTile, rightTile);
@@ -115,7 +115,7 @@ public abstract class MapObject {
 		if(dy < 0) {
 			if(topLeft || topRight) {
 				dy = 0;
-				ytemp = currRow * tileSize +cheight / 2;
+				ytemp = currRow * tileSize + cheight / 2;
 			}
 			else {
 				ytemp += dy;
