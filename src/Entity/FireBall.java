@@ -18,6 +18,8 @@ public class FireBall extends MapObject {
 		
 		super(tm);
 		
+		facingRight = right;
+		
 		moveSpeed = 3.8;
 		if(right) dx = moveSpeed;
 		else dx = -moveSpeed;
@@ -37,7 +39,7 @@ public class FireBall extends MapObject {
 				sprites[i] = spritesheet.getSubimage(i * width, 0, width, height);
 			}
 			
-			sprites = new BufferedImage[3];
+			hitSprites = new BufferedImage[3];
 			for(int i = 0; i < hitSprites.length; i++) {
 				hitSprites[i] = spritesheet.getSubimage(i * width, height, width, height);
 			}
@@ -71,6 +73,10 @@ public class FireBall extends MapObject {
 		checkTileMapCollision();
 		setPosition(xtemp, ytemp);
 		
+		if(dx == 0 && !hit) {
+			setHit();
+		}
+		
 		animation.update();
 		if(hit && animation.hasPlayedOnce()) {
 			remove = true;
@@ -80,27 +86,11 @@ public class FireBall extends MapObject {
 	
 	public void draw(Graphics2D g) {
 		
+		if(notOnScreen()) return;
+		
 		setMapPosition();
 		
-		if(facingRight) {
-			g.drawImage(
-				animation.getImage(),
-				(int)(x + xmap - width / 2),
-				(int)(y + ymap - height / 2),
-				null
-			);
-		}
-		else {
-			g.drawImage(
-				animation.getImage(),
-				(int)(x + xmap - width / 2 + width),
-				(int)(y + ymap - height / 2),
-				-width,
-				height,
-				null
-			);
-			
-		}
+		super.draw(g);
 		
 	}
 	

@@ -16,8 +16,7 @@ public class MenuState extends GameState {
 	private String[] options = {
 			
 			"Start",
-			"Hilfe",
-			"Beenden",
+			"Beenden"
 	};
 	
 	//Design Einstellungen
@@ -25,6 +24,7 @@ public class MenuState extends GameState {
 	private Font titleFont;
 	
 	private Font font;
+	private Font font2;
 	
 	public MenuState(GameStateManager gsm) {
 		
@@ -36,9 +36,10 @@ public class MenuState extends GameState {
 			bg.setVector(-0.1, 0);
 			
 			titleColor = new Color(128, 0, 0);								//Hintergrundfarbe
-			titleFont = new Font("Century Gothic", Font.PLAIN, 28);			//Menü-Font
+			titleFont = new Font("Times New Roman", Font.PLAIN, 28);			//Menü-Font
 			
-			font = new Font("Arial", Font.PLAIN, 12);
+			font = new Font("Arial", Font.PLAIN, 14);
+			font2 = new Font("Century Gothic", Font.PLAIN, 10);
 			//Font f = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/Fonts/testfont.ttf")).deriveFont(Font.PLAIN, 20);
 			
 		}
@@ -67,16 +68,25 @@ public class MenuState extends GameState {
 		
 		//draw menu options
 		g.setFont(font);
+		//g.drawString("Start", 145, 140);
+		//g.drawString("Beenden", 135, 165);
 		for(int i = 0; i < options.length; i++) {
 			
 			if(i == currentChoice) {
-				g.setColor(Color.BLACK);
-			}
-			else {
 				g.setColor(Color.RED);
 			}
-			g.drawString(options[i], 145, 140 + i * 15);
+			else {
+				g.setColor(Color.BLACK);
+			}
+			g.drawString(options[i], 145, 140 + i * 17);
 		}
+		
+		//draw credits
+		g.setFont(font2);
+		g.setColor(Color.BLACK);
+		g.drawString("© 2020  J. Kennedy", 10, 232);
+		
+		
 	}
 	
 	private void select() {
