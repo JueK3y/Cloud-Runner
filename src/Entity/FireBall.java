@@ -86,7 +86,7 @@ public class FireBall extends MapObject {
 	
 	public void draw(Graphics2D g) {
 		
-		if(notOnScreen()) return;
+		//if(notOnScreen()) return;
 		
 		setMapPosition();
 		

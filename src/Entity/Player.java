@@ -3,7 +3,12 @@ package Entity;
 import TileMap.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.imageio.ImageIO;
+
+import Audio.AudioPlayer;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -46,6 +51,8 @@ public class Player extends MapObject {
 	private static final int GLIDING = 4;
 	private static final int FIREBALL = 5;
 	private static final int SCRATCHING = 6;
+	
+	private HashMap<String, AudioPlayer> sfx;
 	
 	public Player(TileMap tm) {
 		
@@ -93,7 +100,7 @@ public class Player extends MapObject {
 				
 				for(int j = 0; j < numFrames[i]; j++) {
 					
-					if(i != 6) {
+					if(i != SCRATCHING) {
 						bi[j] = spritesheet.getSubimage(
 								j * width,
 								i * height,
@@ -126,6 +133,10 @@ public class Player extends MapObject {
 		animation.setFrames(sprites.get(IDLE));
 		animation.setDelay(400);
 		
+		sfx = new HashMap<String, AudioPlayer>();
+		sfx.put("jump", new AudioPlayer("/SFX/jump.mp3"));
+		sfx.put("scratch", new AudioPlayer("/SFX/scratch.mp3"));
+		
 	}
 	
 	public int getHealth() { return health; }
@@ -153,12 +164,22 @@ public class Player extends MapObject {
 			//scratch attack 
 			if(scratching) {
 				if(facingRight) {
-					if(e.getx() > x && e.getx() < x + scratchRange && e.gety() > y - height / 2 && e.gety() < y + height / 2) {
+					if(
+						e.getx() > x &&
+						e.getx() < x + scratchRange && 
+						e.gety() > y - height / 2 &&
+						e.gety() < y + height / 2
+					) {
 						e.hit(scratchDamage);
 					}
 				}
 				else {
-					if(e.getx() <  x && e.getx() > x - scratchRange && e.gety() > y - height / 2 && e.gety() < + height / 2) {
+					if(
+						e.getx() < x &&
+						e.getx() > x - scratchRange &&
+						e.gety() > y - height / 2 &&
+						e.gety() < y + height / 2
+					) {
 						e.hit(scratchDamage);
 					}
 				}
@@ -230,6 +251,7 @@ public class Player extends MapObject {
 		
 		// jumping
 		if(jumping && !falling) {
+			sfx.get("jump").play();
 			dy = jumpStart;
 			falling = true;	
 		}
@@ -296,6 +318,7 @@ public class Player extends MapObject {
 		// set animation
 		if(scratching) {
 			if(currentAction != SCRATCHING) {
+				sfx.get("scratch").play();
 				currentAction = SCRATCHING;
 				animation.setFrames(sprites.get(SCRATCHING));
 				animation.setDelay(50);

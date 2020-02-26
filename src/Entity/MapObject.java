@@ -65,7 +65,7 @@ public abstract class MapObject {
 	protected double stopJumpSpeed;
 
 	//constructor
-	public MapObject (TileMap tm) {
+	public MapObject(TileMap tm) {
 		tileMap = tm;
 		tileSize = tm.getTileSize();
 	}
@@ -212,9 +212,9 @@ public abstract class MapObject {
 
 	public boolean notOnScreen() {
 		return x + xmap + width < 0 ||
-				x + xmap -width > GamePanel.WIDTH ||
-				y + ymap + height < 0 ||
-				y + ymap - height > GamePanel.HEIGHT;
+			x + xmap - width > GamePanel.WIDTH ||
+			y + ymap + height < 0 ||
+			y + ymap - height > GamePanel.HEIGHT;
 	}
 	
 	public void draw(java.awt.Graphics2D g) {

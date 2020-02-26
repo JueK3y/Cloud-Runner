@@ -16,7 +16,7 @@ public class MenuState extends GameState {
 	private String[] options = {
 			
 			"Start",
-			"Beenden"
+			"Quit"
 	};
 	
 	//Design Einstellungen
@@ -36,11 +36,10 @@ public class MenuState extends GameState {
 			bg.setVector(-0.1, 0);
 			
 			titleColor = new Color(128, 0, 0);								//Hintergrundfarbe
-			titleFont = new Font("Times New Roman", Font.PLAIN, 28);			//Menü-Font
+			titleFont = new Font("Times New Roman", Font.PLAIN, 28);		//Menü-Font
 			
 			font = new Font("Arial", Font.PLAIN, 14);
 			font2 = new Font("Century Gothic", Font.PLAIN, 10);
-			//Font f = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/Fonts/testfont.ttf")).deriveFont(Font.PLAIN, 20);
 			
 		}
 		catch(Exception e) {
@@ -68,8 +67,6 @@ public class MenuState extends GameState {
 		
 		//draw menu options
 		g.setFont(font);
-		//g.drawString("Start", 145, 140);
-		//g.drawString("Beenden", 135, 165);
 		for(int i = 0; i < options.length; i++) {
 			
 			if(i == currentChoice) {
@@ -93,10 +90,7 @@ public class MenuState extends GameState {
 		if(currentChoice == 0) {										//Start
 			gsm.setState(GameStateManager.LEVEL1STATE);
 		}
-		if(currentChoice == 1) {										//Hilfe
-			
-		}
-		if(currentChoice == 2) {										//Beenden
+		if(currentChoice == 1) {										//Beenden
 			System.exit(0);
 		}
 	}

@@ -8,8 +8,8 @@ public class Tile {
 	private int type;
 	
 	//tile types
-	public static final int NORMAL = 0;
-	public static final int BLOCKED = 1;
+	public static final int NORMAL = 0;					// Keine Collision
+	public static final int BLOCKED = 1;				// Collision
 	
 	public Tile(BufferedImage image, int type) {
 		this.image = image;
