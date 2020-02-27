@@ -154,6 +154,16 @@ public class Player extends MapObject {
 		gliding = b;
 	}
 	
+	public void setDead() {
+		health = 0;
+		stop();
+	}
+	
+	public void stop() {
+		left = right = up = down = flinching = 
+			gliding = jumping = scratching = firing = false;
+	}
+	
 	public void checkAttack(ArrayList<Enemy> enemies) {
 		
 		//loop through enemies
@@ -210,6 +220,13 @@ public class Player extends MapObject {
 		if(health == 0) dead = true;
 		flinching = true;
 		flinchTimer = System.nanoTime();
+	}
+
+	public void reset() {
+		health = maxHealth;
+		facingRight = true;
+		currentAction = -1;
+		stop();
 	}
 	
 	private void getNextPosition() {

@@ -1,14 +1,14 @@
 package GameState;
 
+import Main.GamePanel;
+import TileMap.*;
+import Entity.*;
+import Entity.Enemies.*;
+import Audio.AudioPlayer;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-
-import Audio.AudioPlayer;
-import TileMap.*;
-import Entity.*;
-import Entity.Enemies.Slugger;
-import Main.GamePanel;
 
 public class Level1State extends GameState {
 	
@@ -24,11 +24,15 @@ public class Level1State extends GameState {
 	
 	private AudioPlayer bgMusic;
 	
+	// EVENT
+	private boolean blockInput = false;
+	private boolean eventDead;
+	
 	public Level1State(GameStateManager gsm) {
 		this.gsm = gsm;
 		init();
 	}
-
+	
 	public void init() {
 		
 		tileMap = new TileMap(30);
@@ -40,7 +44,7 @@ public class Level1State extends GameState {
 		bg = new Background("/Backgrounds/mountainbg.gif", 0.1);
 		
 		player = new Player(tileMap);
-		player.setPosition(100, 180);
+		player.setPosition(100, 185);
 		
 		populateEnemies();
 		
@@ -60,11 +64,11 @@ public class Level1State extends GameState {
 		Slugger s;
 		Point[] points = new Point[] {
 			new Point(860, 200),
+			new Point(1050, 200),
 			new Point(1525, 200),
 			new Point(1680, 200),
-			new Point(1800, 200) 
+			new Point(1800, 200)
 		};
-		
 		for(int i = 0; i < points.length; i++) {
 			s = new Slugger(tileMap);
 			s.setPosition(points[i].x, points[i].y);
@@ -75,28 +79,40 @@ public class Level1State extends GameState {
 	
 	public void update() {
 		
-		//update player
+		// update player
 		player.update();
-		tileMap.setPosition(GamePanel.WIDTH / 2 - player.getx(), GamePanel.HEIGHT / 2 - player.gety());
+		tileMap.setPosition(
+			GamePanel.WIDTH / 2 - player.getx(),
+			GamePanel.HEIGHT / 2 - player.gety()
+		);
 		
-		//set background
+		// check if player dead event should start
+		if(player.getHealth() == 0 || player.gety() >= 225) {					// > tileMap.getHeight()
+			eventDead = blockInput = true;
+		}
+				
+		// play events
+		if(eventDead) eventDead();
+				
+		// set background
 		bg.setPosition(tileMap.getx(), tileMap.gety());
 		
-		//attack enemies
+		// attack enemies
 		player.checkAttack(enemies);
 		
-		//update all enemies
+		// update all enemies
 		for(int i = 0; i < enemies.size(); i++) {
 			Enemy e = enemies.get(i);
 			e.update();
 			if(e.isDead()) {
 				enemies.remove(i);
 				i--;
-				explosions.add(new Explosion(e.getx(), e.gety()));
+				explosions.add(
+					new Explosion(e.getx(), e.gety()));
 			}
 		}
 		
-		//update Explosions
+		// update explosions
 		for(int i = 0; i < explosions.size(); i++) {
 			explosions.get(i).update();
 			if(explosions.get(i).shouldRemove()) {
@@ -109,31 +125,35 @@ public class Level1State extends GameState {
 	
 	public void draw(Graphics2D g) {
 		
-		//draw bg
+		// draw bg
 		bg.draw(g);
 		
-		//draw tilemap
+		// draw tilemap
 		tileMap.draw(g);
 		
-		//draw player
+		// draw player
 		player.draw(g);
 		
-		//draw enemies
+		// draw enemies
 		for(int i = 0; i < enemies.size(); i++) {
 			enemies.get(i).draw(g);
 		}
 		
-		//draw explosions
+		// draw explosions
 		for(int i = 0; i < explosions.size(); i++) {
-			explosions.get(i).setMapPosition((int)tileMap.getx(), (int)tileMap.gety());
+			explosions.get(i).setMapPosition(
+				(int)tileMap.getx(), (int)tileMap.gety());
 			explosions.get(i).draw(g);
 		}
 		
-		//draw HUD
+		// draw hud
 		hud.draw(g);
+		
 	}
 	
-	public void keyPressed(int k) {													//Key bindings
+	////////// KEY INPUT //////////
+	
+	public void keyPressed(int k) {
 		if(k == KeyEvent.VK_LEFT) player.setLeft(true);
 		if(k == KeyEvent.VK_RIGHT) player.setRight(true);
 		if(k == KeyEvent.VK_UP) player.setUp(true);
@@ -153,4 +173,35 @@ public class Level1State extends GameState {
 		if(k == KeyEvent.VK_SPACE) player.setGliding(false);
 	}
 	
+	
+	////////////// EVENT ////////////
+	
+	// reset level
+		private void reset() {
+			player.reset();
+			player.setPosition(100, 170);
+			populateEnemies();
+			blockInput = false;
+		}
+		
+	// player has died
+		private void eventDead() {
+			player.setDead();
+			player.stop();
+			eventDead = blockInput = false;
+			reset();
+		}	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
