@@ -37,7 +37,7 @@ public class Level1State extends GameState {
 		tileMap.setPosition(0, 0);
 		tileMap.setTween(1);
 		
-		bg = new Background("/Backgrounds/grassbg1.gif", 0.1);
+		bg = new Background("/Backgrounds/mountainbg.gif", 0.1);
 		
 		player = new Player(tileMap);
 		player.setPosition(100, 180);
@@ -138,10 +138,10 @@ public class Level1State extends GameState {
 		if(k == KeyEvent.VK_RIGHT) player.setRight(true);
 		if(k == KeyEvent.VK_UP) player.setUp(true);
 		if(k == KeyEvent.VK_DOWN) player.setDown(true);
-		if(k == KeyEvent.VK_SPACE) player.setJumping(true);
-		if(k == KeyEvent.VK_W) player.setGliding(true);
-		if(k == KeyEvent.VK_SHIFT) player.setScratching();
-		if(k == KeyEvent.VK_F) player.setFiring();
+		if(k == KeyEvent.VK_UP) player.setJumping(true);
+		if(k == KeyEvent.VK_SPACE) player.setGliding(true);
+		if(k == KeyEvent.VK_A) player.setScratching();
+		if(k == KeyEvent.VK_D) player.setFiring();
 	}
 	
 	public void keyReleased(int k) {
@@ -149,8 +149,8 @@ public class Level1State extends GameState {
 		if(k == KeyEvent.VK_RIGHT) player.setRight(false);
 		if(k == KeyEvent.VK_UP) player.setUp(false);
 		if(k == KeyEvent.VK_DOWN) player.setDown(false);
-		if(k == KeyEvent.VK_SPACE) player.setJumping(false);
-		if(k == KeyEvent.VK_W) player.setGliding(false);
+		if(k == KeyEvent.VK_UP) player.setJumping(false);
+		if(k == KeyEvent.VK_SPACE) player.setGliding(false);
 	}
 	
 }

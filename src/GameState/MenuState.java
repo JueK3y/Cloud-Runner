@@ -63,7 +63,7 @@ public class MenuState extends GameState {
 		//draw title
 		g.setColor(titleColor);
 		g.setFont(titleFont);
-		g.drawString("Prototype Game", 80, 70);							// !! !!
+		g.drawString("Cloud Runner", 80, 70);							// !! !!
 		
 		//draw menu options
 		g.setFont(font);
@@ -75,7 +75,7 @@ public class MenuState extends GameState {
 			else {
 				g.setColor(Color.BLACK);
 			}
-			g.drawString(options[i], 145, 140 + i * 17);
+			g.drawString(options[i], 145, 140 + i * 20);
 		}
 		
 		//draw credits
