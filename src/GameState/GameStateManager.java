@@ -7,10 +7,9 @@ public class GameStateManager {
 	private GameState[] gameStates;
 	private int currentState;
 	
-	public static final int NUMGAMESTATES = 3;
+	public static final int NUMGAMESTATES = 2;
 	public static final int MENUSTATE = 0;
 	public static final int LEVEL1STATE = 1;
-	public static final int LEVEL2STATE = 2;
 	
 	public GameStateManager() {
 		
@@ -26,8 +25,6 @@ public class GameStateManager {
 			gameStates[state] = new MenuState(this);
 		if(state == LEVEL1STATE) 
 			gameStates[state] = new Level1State(this);
-		//if(state == LEVEL2STATE)
-			//gameStates[state] = new Level2State(this);
 	}
 	
 	private void unloadState(int state) {										//unload
@@ -38,8 +35,6 @@ public class GameStateManager {
 		unloadState(currentState);
 		currentState = state;
 		loadState(currentState);
-		
-		//gameStates[currentState].init();
 	}
 	
 	public void update() {

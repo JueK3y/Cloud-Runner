@@ -4,7 +4,6 @@ import Main.GamePanel;
 import TileMap.*;
 import Entity.*;
 import Entity.Enemies.*;
-import Audio.AudioPlayer;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -21,8 +20,6 @@ public class Level1State extends GameState {
 	private ArrayList<Explosion> explosions;
 	
 	private HUD hud;
-	
-	private AudioPlayer bgMusic;
 	
 	// EVENT
 	private boolean blockInput = false;
@@ -51,10 +48,6 @@ public class Level1State extends GameState {
 		explosions = new ArrayList<Explosion>();
 		
 		hud = new HUD(player);
-		
-		bgMusic = new AudioPlayer("/Music/level1-1.mp3");
-		bgMusic.play();
-		
 	}
 	
 	private void populateEnemies() {
