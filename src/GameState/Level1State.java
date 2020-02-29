@@ -7,7 +7,10 @@ import Entity.Enemies.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 public class Level1State extends GameState {
 	
@@ -20,6 +23,9 @@ public class Level1State extends GameState {
 	private ArrayList<Explosion> explosions;
 	
 	private HUD hud;
+	private BufferedImage hageonText;
+	private Title title;
+	private Title subtitle;
 	
 	// EVENT
 	private boolean blockInput = false;
@@ -32,16 +38,30 @@ public class Level1State extends GameState {
 	
 	public void init() {
 		
+		// title and subtitle
+		try {
+			hageonText = ImageIO.read(
+				getClass().getResourceAsStream("/HUD/HageonTemple.gif")
+			);
+			title = new Title(hageonText.getSubimage(0, 0, 178, 20));
+			title.sety(60);
+			subtitle = new Title(hageonText.getSubimage(0, 20, 82, 13));
+			subtitle.sety(85);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		tileMap = new TileMap(30);
-		tileMap.loadTiles("/Tilesets/grasstileset.gif");
-		tileMap.loadMap("/Maps/level1-1.map");
+		tileMap.loadTiles("/Tilesets/cloudtileset.gif");
+		tileMap.loadMap("/Maps/level1-B.map");
 		tileMap.setPosition(0, 0);
 		tileMap.setTween(1);
 		
 		bg = new Background("/Backgrounds/mountainbg.gif", 0.1);
 		
 		player = new Player(tileMap);
-		player.setPosition(100, 185);
+		player.setPosition(7030, 215);
 		
 		populateEnemies();
 		
@@ -56,11 +76,18 @@ public class Level1State extends GameState {
 		
 		Slugger s;
 		Point[] points = new Point[] {
-			new Point(860, 200),
-			new Point(1050, 200),
-			new Point(1525, 200),
-			new Point(1680, 200),
-			new Point(1800, 200)
+			new Point(1150, 200),
+			new Point(1400, 200),
+			new Point(1850, 200),
+			new Point(2020, 200),
+			new Point(2150, 200),
+			new Point(3050, 200),
+			new Point(3250, 200),
+			new Point(4000, 200),
+			new Point(5100, 200),
+			new Point(6300, 200),
+			new Point(6500, 200)
+			
 		};
 		for(int i = 0; i < points.length; i++) {
 			s = new Slugger(tileMap);
@@ -79,8 +106,13 @@ public class Level1State extends GameState {
 			GamePanel.HEIGHT / 2 - player.gety()
 		);
 		
+		// finished game
+		if((player.getx() == 7050 || player.getx() == 7075) && player.gety() >= 200) {
+			gsm.setState(GameStateManager.MENUSTATE);
+		}
+		
 		// check if player dead event should start
-		if(player.getHealth() == 0 || player.gety() >= 225) {					// > tileMap.getHeight()
+		if(player.getHealth() == 0 || player.gety() >= 255) {
 			eventDead = blockInput = true;
 		}
 				
@@ -172,9 +204,14 @@ public class Level1State extends GameState {
 	// reset level
 		private void reset() {
 			player.reset();
-			player.setPosition(100, 170);
 			populateEnemies();
 			blockInput = false;
+			if(player.getx() >= 3355) {
+				player.setPosition(3355, 100);
+			}
+			else {
+				player.setPosition(255,215);
+			}
 		}
 		
 	// player has died

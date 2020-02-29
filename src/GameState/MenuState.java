@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
+import javax.imageio.ImageIO;
+
 import TileMap.Background;
 
 public class MenuState extends GameState {
@@ -24,7 +26,8 @@ public class MenuState extends GameState {
 	private Font titleFont;
 	
 	private Font font;
-	private Font font2;
+	private Font creditFont;
+	private Color creditColor;
 	
 	public MenuState(GameStateManager gsm) {
 		
@@ -32,14 +35,13 @@ public class MenuState extends GameState {
 		
 		try {
 			
-			bg = new Background("/Backgrounds/menubg.gif", 1);				// Pfad, Scale
-			bg.setVector(-0.1, 0);
+			bg = new Background("/Backgrounds/menumountainbg.gif", 1);				// Pfad, Scale
 			
 			titleColor = new Color(128, 0, 0);								//Hintergrundfarbe
-			titleFont = new Font("Times New Roman", Font.PLAIN, 28);		//Menü-Font
+			titleFont = new Font("Times New Roman", Font.PLAIN, 29);		//Menü-Font
 			
 			font = new Font("Arial", Font.PLAIN, 14);
-			font2 = new Font("Century Gothic", Font.PLAIN, 10);
+			creditFont = new Font("Century Gothic", Font.PLAIN, 10);
 			
 		}
 		catch(Exception e) {
@@ -63,7 +65,7 @@ public class MenuState extends GameState {
 		//draw title
 		g.setColor(titleColor);
 		g.setFont(titleFont);
-		g.drawString("Cloud Runner", 80, 70);							// !! !!
+		g.drawString("Cloud Runner", 80, 55);
 		
 		//draw menu options
 		g.setFont(font);
@@ -75,13 +77,13 @@ public class MenuState extends GameState {
 			else {
 				g.setColor(Color.BLACK);
 			}
-			g.drawString(options[i], 145, 140 + i * 20);
+			g.drawString(options[i], 144, 134 + i * 19);
 		}
 		
 		//draw credits
-		g.setFont(font2);
-		g.setColor(Color.BLACK);
-		g.drawString("© 2020  J. Kennedy", 10, 232);
+		g.setFont(creditFont);
+		g.setColor(creditColor = new Color(170, 170, 170));
+		g.drawString("© 2020  J. Kennedy", 10, 260);
 		
 		
 	}

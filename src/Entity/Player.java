@@ -217,6 +217,7 @@ public class Player extends MapObject {
 
 	public void reset() {
 		health = maxHealth;
+		fire = maxFire;
 		facingRight = true;
 		currentAction = -1;
 		stop();
