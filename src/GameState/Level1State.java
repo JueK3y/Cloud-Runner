@@ -28,6 +28,7 @@ public class Level1State extends GameState {
 	private Title subtitle;
 	
 	// EVENT
+	@SuppressWarnings("unused")
 	private boolean blockInput = false;
 	private boolean eventDead;
 	
@@ -38,20 +39,6 @@ public class Level1State extends GameState {
 	
 	public void init() {
 		
-		// title and subtitle
-		try {
-			hageonText = ImageIO.read(
-				getClass().getResourceAsStream("/HUD/HageonTemple.gif")
-			);
-			title = new Title(hageonText.getSubimage(0, 0, 178, 20));
-			title.sety(60);
-			subtitle = new Title(hageonText.getSubimage(0, 20, 82, 13));
-			subtitle.sety(85);
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		
 		tileMap = new TileMap(30);
 		tileMap.loadTiles("/Tilesets/cloudtileset.gif");
 		tileMap.loadMap("/Maps/level1-B.map");
@@ -61,7 +48,7 @@ public class Level1State extends GameState {
 		bg = new Background("/Backgrounds/mountainbg.gif", 0.1);
 		
 		player = new Player(tileMap);
-		player.setPosition(7030, 215);
+		player.setPosition(225, 215);
 		
 		populateEnemies();
 		

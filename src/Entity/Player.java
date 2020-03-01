@@ -3,7 +3,6 @@ package Entity;
 import TileMap.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
@@ -17,6 +16,7 @@ public class Player extends MapObject {
 	private int maxHealth;
 	private int fire;
 	private int maxFire;
+	@SuppressWarnings("unused")
 	private boolean dead;
 	private boolean flinching;
 	private long flinchTimer;
@@ -83,17 +83,13 @@ public class Player extends MapObject {
 		// load sprites
 		try {
 			
-			BufferedImage spritesheet = ImageIO.read(
-				getClass().getResourceAsStream(
-					"/Sprites/Player/playersprites.gif"
-				)
-			);
+			BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream("/Sprites/Player/playersprites.gif"));
 			
 			sprites = new ArrayList<BufferedImage[]>();
 			for(int i = 0; i < 7; i++) {
 				
 				BufferedImage[] bi =
-					new BufferedImage[numFrames[i]];
+					new BufferedImage[numFrames[i]];	
 				
 				for(int j = 0; j < numFrames[i]; j++) {
 					
@@ -167,22 +163,12 @@ public class Player extends MapObject {
 			//scratch attack 
 			if(scratching) {
 				if(facingRight) {
-					if(
-						e.getx() > x &&
-						e.getx() < x + scratchRange && 
-						e.gety() > y - height / 2 &&
-						e.gety() < y + height / 2
-					) {
+					if(e.getx() > x && e.getx() < x + scratchRange && e.gety() > y - height / 2 && e.gety() < y + height / 2) {
 						e.hit(scratchDamage);
 					}
 				}
 				else {
-					if(
-						e.getx() < x &&
-						e.getx() > x - scratchRange &&
-						e.gety() > y - height / 2 &&
-						e.gety() < y + height / 2
-					) {
+					if(e.getx() < x && e.getx() > x - scratchRange && e.gety() > y - height / 2 && e.gety() < y + height / 2) {
 						e.hit(scratchDamage);
 					}
 				}

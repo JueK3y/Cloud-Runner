@@ -1,5 +1,6 @@
 package Main;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class Game {
@@ -12,6 +13,12 @@ public class Game {
 		window.setResizable(false);											//Veränderung der Größe nicht möglich
 		window.pack();
 		window.setVisible(true); 											//Fenster sichtbar
+		window.setIconImage(createImage("/HUD/icon.gif").getImage());
 		
 	}
+	
+	public static ImageIcon createImage(String path) {
+		return new ImageIcon(java.awt.Toolkit.getDefaultToolkit().getClass().getResource(path));
+	}
+		
 }

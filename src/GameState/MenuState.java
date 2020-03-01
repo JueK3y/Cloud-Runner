@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
-import javax.imageio.ImageIO;
 
 import TileMap.Background;
 
@@ -27,6 +26,7 @@ public class MenuState extends GameState {
 	
 	private Font font;
 	private Font creditFont;
+	@SuppressWarnings("unused")
 	private Color creditColor;
 	
 	public MenuState(GameStateManager gsm) {
